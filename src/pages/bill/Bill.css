@@ -1,0 +1,473 @@
+.bill_bg {
+    position: relative;
+}
+.btn_bill {
+    width: 150px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 15px;
+    background-color: #61915f;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 20px;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+}
+.btn_bil {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 15px;
+    background-color: #61915f;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 20px;
+  
+}
+
+table thead tr th {
+    background-color: #61915f !important;
+}
+ /* table tbody {
+    height: 200px !important;
+    overflow-y: scroll  !important;
+} */
+.btn_add {
+    width: 80px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 15px;
+    background-color: #61915f;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 20px;
+ 
+}
+
+h1 {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    font-family: "Raleway", sans-serif;
+    font-weight: 300;
+    font-size: 40px;
+    color: #080808;
+    -webkit-transition: all 0.4s ease 0s;
+    -o-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+  }
+  .nine h1 {
+    text-align:center; font-size:50px; text-transform:uppercase; color:#222; letter-spacing:1px;
+    font-family:"Playfair Display", serif; font-weight:400;
+  }
+  .nine h1 span {
+    margin-top: 5px;
+      font-size:15px; color:#444; word-spacing:1px; font-weight:normal; letter-spacing:2px;
+      text-transform: uppercase; font-family:"Raleway", sans-serif; font-weight:500;
+  
+      display: grid;
+      grid-template-columns: 1fr max-content 1fr;
+      grid-template-rows: 27px 0;
+      grid-gap: 20px;
+      align-items: center;
+  }
+  
+  .nine h1 span:after,.nine h1 span:before {
+      content: " ";
+      display: block;
+      border-bottom: 1px solid #ccc;
+      border-top: 1px solid #ccc;
+      height: 5px;
+    background-color:#f8f8f8;
+  }
+
+
+  .inp {
+    position: relative;
+    margin: auto;
+    width: 100%;
+    /* max-width: 280px; */
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .ing {
+    position: relative;
+    margin: auto;
+    width: 70%;
+    
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .it {
+    position: relative;
+    margin: auto;
+    width: 25%;
+    
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  
+   .inp .label {
+    position: absolute;
+    top: 20px;
+    left: 12px;
+    font-size: 16px;
+    color: rgba(---dark, 0.5);
+    font-weight: 500;
+    transform-origin: 0 0;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.2s ease;
+    pointer-events: none;
+  }
+  
+  .inp .focus-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(---dark, 0.05);
+    z-index: -1;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  
+  .inp input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    border: 3px solid;
+    border-radius: 15px;
+    border-color: #61915f;
+    font-family: inherit;
+    padding: 16px 12px 0 12px;
+    height: 56px;
+    font-size: 16px;
+    font-weight: 400;
+    background: rgba(---dark, 0.02);
+    box-shadow: inset 0 -1px 0 rgba(---dark, 0.3);
+    color: ---dark;
+    transition: all 0.15s ease;
+  }
+  
+  .inp input:hover {
+    background: rgba(---dark, 0.04);
+    box-shadow: inset 0 -1px 0 rgba(---dark, 0.5);
+  }
+  
+  .inp input:not(:placeholder-shown) + .label {
+    color: rgba(---dark, 0.5);
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  
+  .inp input:focus {
+    background: rgba(---dark, 0.05);
+    outline: none;
+    box-shadow: inset 0 -2px 0 ---primary;
+  }
+  
+  .inp input:focus + .label {
+    color: ---primary;
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  
+  .inp input:focus + .label + .focus-bg {
+    transform: scaleX(1);
+    transition: all 0.1s ease;
+  }
+  
+  .inp select {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    border: 3px solid;
+    border-radius: 15px;
+    border-color: #61915f;
+    font-family: inherit;
+    padding: 16px 12px 0 12px;
+    height: 56px;
+    font-size: 16px;
+    font-weight: 400;
+    background: rgba(---dark, 0.02);
+    box-shadow: inset 0 -1px 0 rgba(---dark, 0.3);
+    color: ---dark;
+    transition: all 0.15s ease;
+  }
+  
+  .inp select:hover {
+    background: rgba(---dark, 0.04);
+    box-shadow: inset 0 -1px 0 rgba(---dark, 0.5);
+  }
+  
+  .inp select:not(:placeholder-shown) + .label {
+    color: rgba(---dark, 0.5);
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  
+  .inp select:focus {
+    background: rgba(---dark, 0.05);
+    outline: none;
+    box-shadow: inset 0 -2px 0 ---primary;
+  }
+  
+  .inp select:focus + .label {
+    color: ---primary;
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  
+  .inp select:focus + .label + .focus-bg {
+    transform: scaleX(1);
+    transition: all 0.1s ease;
+  } 
+  .ing .label {
+    position: absolute;
+    top: 20px;
+    left: 12px;
+    font-size: 16px;
+    color: rgba(---dark, 0.5);
+    font-weight: 500;
+    transform-origin: 0 0;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.2s ease;
+    pointer-events: none;
+  }
+  
+  .ing .focus-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(---dark, 0.05);
+    z-index: -1;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  
+  .ing input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    border: 3px solid;
+    border-radius: 15px;
+    border-color: #61915f;
+    font-family: inherit;
+    padding: 16px 12px 0 12px;
+    height: 56px;
+    font-size: 16px;
+    font-weight: 400;
+    background: rgba(---dark, 0.02);
+    box-shadow: inset 0 -1px 0 rgba(---dark, 0.3);
+    color: ---dark;
+    transition: all 0.15s ease;
+  }
+  
+  .ing input:hover {
+    background: rgba(---dark, 0.04);
+    box-shadow: inset 0 -1px 0 rgba(---dark, 0.5);
+  }
+  
+  .ing input:not(:placeholder-shown) + .label {
+    color: rgba(---dark, 0.5);
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  
+  .ing input:focus {
+    background: rgba(---dark, 0.05);
+    outline: none;
+    box-shadow: inset 0 -2px 0 ---primary;
+  }
+  
+  .ing input:focus + .label {
+    color: ---primary;
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  
+  .ing input:focus + .label + .focus-bg {
+    transform: scaleX(1);
+    transition: all 0.1s ease;
+  }
+  
+  .ing select {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    border: 3px solid;
+    border-radius: 15px;
+    border-color: #61915f;
+    font-family: inherit;
+    padding: 16px 12px 0 12px;
+    height: 56px;
+    font-size: 16px;
+    font-weight: 400;
+    background: rgba(---dark, 0.02);
+    box-shadow: inset 0 -1px 0 rgba(---dark, 0.3);
+    color: ---dark;
+    transition: all 0.15s ease;
+  }
+  
+  .ing select:hover {
+    background: rgba(---dark, 0.04);
+    box-shadow: inset 0 -1px 0 rgba(---dark, 0.5);
+  }
+  
+  .ing select:not(:placeholder-shown) + .label {
+    color: rgba(---dark, 0.5);
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  
+  .ing select:focus {
+    background: rgba(---dark, 0.05);
+    outline: none;
+    box-shadow: inset 0 -2px 0 ---primary;
+  }
+  
+  .ing select:focus + .label {
+    color: ---primary;
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  
+  .ing select:focus + .label + .focus-bg {
+    transform: scaleX(1);
+    transition: all 0.1s ease;
+  }
+
+
+  
+  .it .label {
+    position: absolute;
+    top: 20px;
+    left: 12px;
+    font-size: 16px;
+    color: rgba(---dark, 0.5);
+    font-weight: 500;
+    transform-origin: 0 0;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.2s ease;
+    pointer-events: none;
+    
+  }
+  
+  .it .focus-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(---dark, 0.05);
+    z-index: -1;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  
+  .it input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    border: 3px solid;
+    border-radius: 15px;
+    border-color: #61915f;
+    font-family: inherit;
+    padding: 16px 12px 0 12px;
+    height: 56px;
+    font-size: 16px;
+    font-weight: 400;
+    background: rgba(---dark, 0.02);
+    box-shadow: inset 0 -1px 0 rgba(---dark, 0.3);
+    color: ---dark;
+    transition: all 0.15s ease;
+  }
+  
+  .it input:hover {
+    background: rgba(---dark, 0.04);
+    box-shadow: inset 0 -1px 0 rgba(---dark, 0.5);
+  }
+  
+  .it input:not(:placeholder-shown) + .label {
+    color: rgba(---dark, 0.5);
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  
+  .it input:focus {
+    background: rgba(---dark, 0.05);
+    outline: none;
+    box-shadow: inset 0 -2px 0 ---primary;
+  }
+  
+  .it input:focus + .label {
+    color: ---primary;
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  
+  .it input:focus + .label + .focus-bg {
+    transform: scaleX(1);
+    transition: all 0.1s ease;
+  }
+  
+  .it select {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    border: 3px solid;
+    border-radius: 15px;
+    border-color: #61915f;
+    font-family: inherit;
+    padding: 16px 12px 0 12px;
+    height: 56px;
+    font-size: 16px;
+    font-weight: 400;
+    background: rgba(---dark, 0.02);
+    box-shadow: inset 0 -1px 0 rgba(---dark, 0.3);
+    color: ---dark;
+    transition: all 0.15s ease;
+  }
+  
+  .it select:hover {
+    background: rgba(---dark, 0.04);
+    box-shadow: inset 0 -1px 0 rgba(---dark, 0.5);
+  }
+  
+  .it select:not(:placeholder-shown) + .label {
+    color: rgba(---dark, 0.5);
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  
+  .it select:focus {
+    background: rgba(---dark, 0.05);
+    outline: none;
+    box-shadow: inset 0 -2px 0 ---primary;
+  }
+  
+  .it select:focus + .label {
+    color: ---primary;
+    transform: translate3d(0, -12px, 0) scale(0.75);
+  }
+  
+  .it select:focus + .label + .focus-bg {
+    transform: scaleX(1);
+    transition: all 0.1s ease;
+  }
+  .modal-content {
+    background: none !important;
+    border: none !important;
+  }
+  .modal-dialog {
+    background-color: #ffff !important;
+    border: #000 !important;
+  }

@@ -1,0 +1,51 @@
+.btn_show {
+    width: 30%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 15px;
+    background-color: #61915f;
+    color: white;
+    font-weight: 500;
+ 
+}
+.btn_search {
+    width: 30%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 15px;
+    background-color: #61915f;
+    color: white;
+    font-weight: 500;
+ 
+}
+
+@media only screen and (max-width: 600px) {
+    .btn_search {
+        width: 50%;
+    }
+    .btn_show {
+        width: 67%;
+    }
+    .btn_add {
+        width: 50%;
+    }
+    .btn_bil {
+        width: 50%;
+    }
+   
+        .ELE {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+}

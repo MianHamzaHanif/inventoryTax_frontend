@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+.App {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+
+}
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+:root {
+  --body-color: #e4e9f7;
+  --sidebar-color: #fff;
+  --primary-color: #f4f2f2;
+  --primary-color-light: #f4f2f2;
+  --toggle-color: #ddd;
+  --text-color: #707070;
+  --dark-color: #000;
+
+  --trans-02: all 0.2s ease;
+  --trans-03: all 0.3s ease;
+  --trans-04: all 0.4s ease;
+  --trans-04: all 0.5s ease;
+  ---primary: #0077FF
+---dark: #000
+}
+body.dark {
+  --body-color: #181914;
+  --sidebar-color: #242526;
+  --primary-color: #34383c;
+  --primary-color-light: #383a3c;
+  --toggle-color: #fff;
+  --text-color: #ccc;
+  --dark-color: #fff;
+}
+::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar track */
+  overflow: hidden;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Background color of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scrollbar handle */
+  border-radius: 4px;
+}
+
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Adjust as needed */
+}
+
+.pagination-container button {
+  padding: 10px 15px;
+  margin: 0 10px;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-container button:hover {
+  background-color: #e7e7e7; /* Slightly darker on hover */
+}
+
+.pagination-container button:disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
+.pagination-container span {
+  margin: 0 10px;
+}
+
+.new_btn{
+  background-color: #61915F;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  color: white;
+  padding: 10px;
+  height: 50px;
+  width: 50px;
+}
+.new_btn2{
+  background-color: #61915F;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  color: white;
+  padding: 8px;
+  /* height: 50px; */
+  /* width: 100px; */
+}
+.modal-dialog{
+  border-radius: 12px;
+}
