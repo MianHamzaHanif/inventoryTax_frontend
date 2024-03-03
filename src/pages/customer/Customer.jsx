@@ -1,124 +1,163 @@
-import { React, useEffect, useState } from "react";
-import { CiSaveDown1 } from "react-icons/ci";
-import { IoMdLogOut } from "react-icons/io";
-import Model from "../bill/Model";
-import { CiSearch } from "react-icons/ci";
-import { MdOutlineCreateNewFolder } from "react-icons/md";
-import Pagination from "react-bootstrap/Pagination";
 
+import React, { useEffect, useState } from "react";
+import { IoMdLogOut } from "react-icons/io";
+import { toast } from "react-hot-toast";
+import { CiSaveDown1 } from "react-icons/ci";
 import { LinkContainer } from "react-router-bootstrap";
 import { APIinstance } from "../../axios.config";
-import { toast } from "react-hot-toast";
+import Pagination from "react-bootstrap/Pagination";
 import { FaPlus } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addNewCustomer,
+  deleteCustomer,
+  fetchCustomers,
+  updateCustomer,
+} from "../../redux/addCustomer";
+import { FiEdit } from "react-icons/fi";
+import { MdDeleteOutline } from "react-icons/md";
+import { Form } from "react-bootstrap";
 
 const Customer = () => {
-  const [modalShow, setModalShow] = useState(false);
-  const [showAddCustomer, setShowAddCustomer] = useState(false);
-
-
-  const [customerForm, setCustomerForm] = useState({
+  const dispatch = useDispatch();
+  const { customers, totalPages } = useSelector((state) => state.customer);
+  const [pagination, setPagination] = useState({ page: 1, limit: 10 });
+  const [showAddProduct, setShowAddProduct] = useState(false); // Ensure this state is defined if used
+  const [customerDetails, setCustomerDetails] = useState({
     name: "",
     address: "",
-    mobile: "",
-    CNIC: "",
+    mobile: 0,
+    CNIC: 0,
   });
-
-  const [customers, setCustomers] = useState([]); // State to hold customer data
-  const [currentPage, setCurrentPage] = useState(0); // State to hold the current page number
-  const [totalPages, setTotalPages] = useState(0); // State to hold the total number of pages
-
-  const fetchCustomers = async (pageNo) => {
-    try {
-      const response = await APIinstance.get(
-        `/customer/getAllCustomers?pageNo=${pageNo}`
-      );
-      console.log("response,response");
-      setCustomers(response.data.data.content);
-      setTotalPages(response.data.data.totalPages);
-      // handle other parts of the response as needed
-    } catch (error) {
-      console.error("Error fetching customers:", error);
-      toast.error("Failed to fetch customers");
-    }
-  };
-
-  // Use useEffect to fetch customers when component mounts or page changes
+  const [isEditing, setIsEditing] = useState(false);
+  const [editCustomerId, setEditCustomerId] = useState(null);
   useEffect(() => {
-    fetchCustomers(currentPage);
-  }, [currentPage]);
-  // Handle form field changes
+    dispatch(
+      fetchCustomers({ page: pagination.page, limit: pagination.limit })
+    );
+  }, [dispatch, pagination.page, pagination.limit]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setCustomerForm({ ...customerForm, [name]: value });
+    setCustomerDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
   };
 
-  // Submit form to create a new customer
-  // Submit form to create a new customer
-  const handleSubmit = async (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log("Form submission", newProduct);
+  //    dispatch(addNewProduct(newProduct));
+  //    toast.success("Product added successfully");
+  // };
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Check for empty fields and alert the user if any are found
-    if (
-      !customerForm.name ||
-      !customerForm.address ||
-      !customerForm.mobile ||
-      !customerForm.CNIC
-    ) {
-      toast.error("All fields are required."); // Using toast to show error message
-      return; // Stop the function if any field is empty
-    }
-
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user && user.isAdmin) {
-      const formData = new FormData();
-      formData.append("name", customerForm.name);
-      formData.append("address", customerForm.address);
-      formData.append("mobile", customerForm.mobile);
-      formData.append("CNIC", customerForm.CNIC);
-      formData.append("addedBy", user.id); // Add the admin's ID here
-
-      try {
-        const response = await APIinstance.post(
-          "/customer/createCustomer",
-          formData
-        );
-        toast.success("Customer Created");
-        // Clear form after successful customer creation
-        setCustomerForm({
-          name: "",
-          address: "",
-          mobile: "",
-          CNIC: "",
+    if (isEditing) {
+      dispatch(updateCustomer({ id: editCustomerId, ...customerDetails }))
+        .unwrap()
+        .then(() => {
+          toast.success("Customer updated successfully");
+          resetForm();
+        })
+        .catch((error) => {
+          toast.error(`Failed to update customer: ${error.message}`);
         });
-      } catch (error) {
-        console.error("Error creating customer", error);
-        if (error.response) {
-          toast.error(`Error: ${error.response.data.message}`); 
-        }
-      }
     } else {
-      toast.error("Only admins can create customers"); 
+      dispatch(addNewCustomer(customerDetails))
+        .unwrap()
+        .then(() => {
+          toast.success("Customer added successfully");
+          resetForm();
+        })
+        .catch((error) => {
+          toast.error(`Failed to add customer: ${error.message}`);
+        });
     }
   };
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+
+  const handlePageChange = (newPage) => {
+    setPagination((prev) => ({ ...prev, page: newPage }));
   };
 
-  // Generate pagination items
+  const handleLimitChange = (e) => {
+    setPagination({
+      page: 1,
+      limit: Number(e.target.value),
+      totalPages: pagination.totalPages,
+    });
+  };
+
   const paginationItems = [];
-  for (let number = 1; number <= totalPages; number++) {
+  for (let number = 1; number <= pagination.totalPages; number++) {
     paginationItems.push(
       <Pagination.Item
         key={number}
-        active={number === currentPage + 1}
-        onClick={() => handlePageChange(number - 1)}
+        active={number === pagination.page}
+        onClick={() => handlePageChange(number)}
       >
         {number}
       </Pagination.Item>
     );
   }
 
+  const toggleAddProduct = () => {
+    setShowAddProduct((prev) => !prev); // Toggle the showAddProduct state
+  };
+
+  const resetForm = () => {
+    setShowAddProduct(false);
+    setIsEditing(false);
+    setEditCustomerId(null);
+    setCustomerDetails({
+      name: "",
+      address: "",
+      mobile: "",
+      CNIC: "",
+    });
+    // Refetch customers to update the list
+    dispatch(
+      fetchCustomers({ page: pagination.page, limit: pagination.limit })
+    );
+  };
+
+  const [currentProduct, setCurrentProduct] = useState(null);
+
+  // Click handler for the edit button
+  const handleEdit = (customer) => {
+    setIsEditing(true);
+    setShowAddProduct(true);
+    setEditCustomerId(customer._id);
+    setCustomerDetails({
+      name: customer.name,
+      address: customer.address,
+      mobile: customer.mobile,
+      CNIC: customer.CNIC,
+    });
+  };
+
+  // Click handler for the update button inside the form
+  const handleUpdateProduct = async (e) => {
+    e.preventDefault();
+    dispatch(updateProduct(currentProduct))
+      .unwrap()
+      .then(() => {
+        toast.success("Product updated successfully");
+        setIsEditing(false);
+        setCurrentProduct(null);
+        setShowAddProduct(false); // Hide the form
+        fetchProductDetails(); // Refresh the product list
+      })
+      .catch(() => {
+        toast.error("Failed to update product");
+      });
+  };
+
+  // Click handler for the delete button
+  const handleDelete = (id) => {
+    dispatch(deleteCustomer(id));
+  };
   return (
     <section>
       <div className="container">
@@ -127,176 +166,188 @@ const Customer = () => {
             Add Customer<span>HiTech Solution</span>
           </h1>
         </div>
-        <div className="row">
-          <div className="col-lg-12 col-md-12">
-           
-            {
-              showAddCustomer && (
-                <form onSubmit={handleSubmit}>
-                <div className="row">
-                  <div className="col-lg-6 col-12">
-                  <label for="inp" class="inp mb-4">
+        {showAddProduct ? (
+          <form onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="col-lg-6 col-md-12">
+                <div className="d-block">
+                  <label for="inp" class="inp mb-3 d-block">
                     <input
                       type="text"
+                      id="name"
                       name="name"
-                      value={customerForm.name}
+                      placeholder="&nbsp;"
+                      value={customerDetails.name}
                       onChange={handleInputChange}
-                      // placeholder="Customer Name"
                     />
-                    <span class="label">Customer Name #</span>
+
+                    <span class="label">Customer Name</span>
                     <span class="focus-bg"></span>
                   </label>
-                  </div>
-                  <div className="col-lg-6 col-12">
-                  <label for="inp" class="inp  mb-4">
+                  <label for="inp" class="inp d-block">
                     <input
                       type="text"
-                      name="address"
-                      value={customerForm.address}
-                      onChange={handleInputChange}
-                      // placeholder="Customer Address"
-                    />
-                    <span class="label">Customer Address #</span>
-                    <span class="focus-bg"></span>
-                  </label>
-                  </div>
-                 
-                  <div className="col-lg-6 col-12">
-                  <label for="inp" class="inp mb-3">
-                    <input
-                      type="text"
+                      id="mobile"
                       name="mobile"
-                      value={customerForm.mobile}
+                      placeholder="&nbsp;"
+                      value={customerDetails.mobile}
                       onChange={handleInputChange}
-                      // placeholder="Customer Mobile"
                     />
                     <span class="label">Customer Mobile</span>
                     <span class="focus-bg"></span>
                   </label>
-                  </div>
-                  <div className="col-lg-6 col-12">
-                  <label for="inp" class="inp mb-3">
+                </div>
+              </div>
+              <div className="col-lg-6 col-md-12">
+                <div className="d-block">
+                  <label for="inp" class="inp mb-3 d-block">
                     <input
                       type="text"
+                      id="CNIC"
                       name="CNIC"
-                      value={customerForm.CNIC}
+                      placeholder="&nbsp;"
+                      value={customerDetails.CNIC}
                       onChange={handleInputChange}
-                      // placeholder="Customer CNIC"
                     />
                     <span class="label">Customer CNIC</span>
                     <span class="focus-bg"></span>
                   </label>
-                  </div>
+                  <label for="inp" class="inp d-block">
+                    <input
+                      type="text"
+                      id="address"
+                      name="address"
+                      placeholder="&nbsp;"
+                      value={customerDetails.address}
+                      onChange={handleInputChange}
+                    />
+                    <span class="label">Customer Address</span>
+                    <span class="focus-bg"></span>
+                  </label>
                 </div>
-                <button type="submit" className="btn_search"
-                  onClick={() => setShowAddCustomer(false)}
-                
-                >
-                  Create Customer
-                </button>
-              </form>
-              )
-            }
-          
-
-            <div className="col-lg-12 col-md-12">
-              <div className="d-flex justify-content-end mx-auto gap-3">
-                <button
-                  // type="submit"
-                  className="new_btn p-1"
-                  onClick={() => setShowAddCustomer(true)}
-                  style={{ display: showAddCustomer ? "none" : "block" }}
-                >
-                  <FaPlus className="fs-4 " />
-                </button>
-                {/* <button className="btn btn-outline-success d-block p-3">
-                  <CiSaveDown1 className="d-block ms-2" />
-                  <span className="d-block">Save</span>
-                </button> */}
               </div>
+
+              <button
+                type="submit"
+                className="new_btn2 mt-2 w-25 p-2 ms-3"
+                // onClick={() => setShowAddProduct(false)}
+                // style={{ display: showAddProduct ? "none" : "block" }}
+              >
+                {isEditing ? "Update Customer" : "Add New Customer"}
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div className="col-lg-12 col-md-12">
+            <div className="d-flex justify-content-end mx-auto gap-3">
+              <button
+                // type="submit"
+                className="new_btn p-1"
+                onClick={() => setShowAddProduct(true)}
+                style={{ display: showAddProduct ? "none" : "block" }}
+              >
+                <FaPlus className="fs-4 " />
+              </button>
+              {/* <button className="btn btn-outline-success d-block p-3">
+              <CiSaveDown1 className="d-block ms-2" />
+              <span className="d-block">Save</span>
+            </button> */}
             </div>
           </div>
-          <div className="col-lg-4 col-md-12">
-            <div className="d-flex justify-content-center mx-auto gap-3">
-              {/* <button className="btn btn-outline-success d-block p-3">
-                <CiSaveDown1 className="d-block ms-2" />
-                <span className="d-block">Save</span>
-              </button>
-              <button
-                onClick={() => setModalShow(true)}
-                className="btn btn-outline-success d-block p-3"
+        )}
+      </div>
+      <h5
+        className="mb-3 mt-2 text-center"
+        style={{ textDecoration: "underline" }}
+      >
+        Product Details :
+      </h5>
+      <div
+        className="container d-flex justify-content-center mb-5"
+        // style={{ height: "600px", overflow: "scroll" }}
+      >
+        {customers.length > 0 ? (
+    <table className="table table-bordered mt-3 rounded">
+      <thead>
+        <tr style={{ position: "sticky", top: "0" }}>
+          <th scope="col">#</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Customer CNIC</th>
+          <th scope="col">Customer Mobile</th>
+          <th scope="col">Customer Address</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {customers.map((customer, index) => (
+          <tr key={index}>
+            <td>{(pagination.page - 1) * pagination.limit + index + 1}</td>
+            <td>{customer.name}</td>
+            <td>{customer.CNIC}</td>
+            <td>{customer.mobile}</td>
+            <td>{customer.address}</td>
+            <td>
+              <FiEdit onClick={() => handleEdit(customer)} />
+            </td>
+            <td>
+              <MdDeleteOutline onClick={() => handleDelete(customer._id)} />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  ) : (
+    <p>No customers found.</p>
+  )}
+      </div>
+
+      <div className="container">
+        <div className="row align-items-center justify-content-center">
+          <div className="col-lg-6 col-6">
+            {/* Rows per page selector */}
+            <Form.Group
+              controlId="limitSelect"
+              className="d-flex align-items-center"
+            >
+              <Form.Label className="mb-0 me-2">Rows per page:</Form.Label>
+              <Form.Control
+                as="select"
+                value={pagination.limit}
+                onChange={handleLimitChange}
+                style={{ width: "100px" }}
               >
-                <MdOutlineCreateNewFolder className="d-block ms-1" />
-                <span className="d-block">New</span>
-              </button> */}
-              {/* <Model show={modalShow} onHide={() => setModalShow(false)} /> */}
-            </div>
-            {/* <div className="d-lg-flex d-block mt-3 justify-content-center mx-auto">
-              <label for="inp" class="inp w-100">
-                <input type="search" id="inp" placeholder="&nbsp;" />
-                <span class="label">Search</span>
-                <span class="focus-bg"></span>
-              </label>
-              <button className="btn_search">
-                Search <CiSearch />
-              </button>
-            </div> */}
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </Form.Control>
+            </Form.Group>
+          </div>
+          <div className="col-lg-6 col-6 mt-4 pt-1 d-flex justify-content-end">
+            {/* Pagination */}
+            <Pagination>
+              <Pagination.First
+                onClick={() => handlePageChange(1)}
+                disabled={pagination.page === 1}
+              />
+              <Pagination.Prev
+                onClick={() => handlePageChange(pagination.page - 1)}
+                disabled={pagination.page === 1}
+              />
+              {paginationItems}
+              <Pagination.Next
+                onClick={() => handlePageChange(pagination.page + 1)}
+                disabled={pagination.page === pagination.totalPages}
+              />
+              <Pagination.Last
+                onClick={() => handlePageChange(pagination.totalPages)}
+                disabled={pagination.page === pagination.totalPages}
+              />
+            </Pagination>
           </div>
         </div>
       </div>
-      <h5 className="mb-3 text-center" style={{ textDecoration: "underline" }}>
-              Inovice Auto System :
-            </h5>
-      <div
-        className="container justify-content-center"
-        // style={{ height: "800px", overflow: "scroll" }}
-      >
-        <table className="table table-bordered rounded mb-5">
-          <thead>
-            <tr style={{ position: "sticky", top: "0" }}>
-              <th scope="col">#</th>
-              <th scope="col">Customer Name #</th>
-              <th scope="col">Customer Address #</th>
 
-              <th scope="col">Customer Mobile </th>
-              <th scope="col">Customer CNIC</th>
-            </tr>
-          </thead>
-          <tbody>
-            {customers.map((customer, index) => (
-              <tr key={customer.id}>
-                <th scope="row">{customer.id}</th>
-                <td>{customer.customerName}</td>
-                <td>{customer.customerAddress}</td>
-                <td>{customer.customerMobile}</td>
-                <td>{customer.customerCNIC}</td>
-
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="pagination-container">
-        <Pagination>
-          <Pagination.First
-            onClick={() => handlePageChange(0)}
-            disabled={currentPage === 0}
-          />
-          <Pagination.Prev
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 0}
-          />
-          {paginationItems}
-          <Pagination.Next
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage >= totalPages - 1}
-          />
-          <Pagination.Last
-            onClick={() => handlePageChange(totalPages - 1)}
-            disabled={currentPage >= totalPages - 1}
-          />
-        </Pagination>
-      </div>
       <LinkContainer to={"/"}>
         <button className="btn_bill">
           Leave <IoMdLogOut />
