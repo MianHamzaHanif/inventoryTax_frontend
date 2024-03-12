@@ -25,10 +25,12 @@ const AddProduct = () => {
   console.log("productDetaasdils", productDetails);
 
   const productState = useSelector((state) => state.products);
-  console.log("productStateproductState",productState);
+  console.log("productStateproductState", productState);
 
-  const { products, totalPages: reduxTotalPages } = useSelector((state) => state.productSlice);
-  console.log("productsofall",products);
+  const { products, totalPages: reduxTotalPages } = useSelector(
+    (state) => state.productSlice
+  );
+  console.log("productsofall", products);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -46,15 +48,14 @@ const AddProduct = () => {
   });
 
   const entireState = useSelector((state) => state);
-useEffect(() => {
-  console.log("Entire Redux State:", entireState);
-}, [entireState]);
-
+  useEffect(() => {
+    console.log("Entire Redux State:", entireState);
+  }, [entireState]);
 
   useEffect(() => {
     console.log("Full Redux State:", productState);
   }, [productState]);
-  
+
   useEffect(() => {
     setTotalPages(reduxTotalPages); // Set totalPages from the redux state
   }, [reduxTotalPages]);
@@ -65,13 +66,15 @@ useEffect(() => {
   };
 
   useEffect(() => {
-    dispatch(fetchAllProducts({ page: pagination.page, limit: pagination.limit }))
+    dispatch(
+      fetchAllProducts({ page: pagination.page, limit: pagination.limit })
+    )
       .unwrap()
       .then((response) => {
         setTotalPages(response.params.totalPages); // Update totalPages when fetchItemHeads is successful
       })
       .catch((error) => {
-        console.error('Failed to fetch item heads:', error);
+        console.error("Failed to fetch item heads:", error);
       });
   }, [dispatch, pagination.page, pagination.limit]);
 
@@ -123,11 +126,17 @@ useEffect(() => {
     dispatch(action(newProduct))
       .unwrap()
       .then(() => {
-        toast.success(`Product ${isEditing ? "updated" : "added"} successfully`);
+        toast.success(
+          `Product ${isEditing ? "updated" : "added"} successfully`
+        );
         resetForm();
         fetchAllProducts();
       })
-      .catch((error) => toast.error(`Failed to ${isEditing ? "update" : "add"} product: ${error.message}`));
+      .catch((error) =>
+        toast.error(
+          `Failed to ${isEditing ? "update" : "add"} product: ${error.message}`
+        )
+      );
   };
 
   const resetForm = () => {
@@ -166,7 +175,11 @@ useEffect(() => {
   }, [productDetails]); // This will log the state after it has been updated.
 
   const handleLimitChange = (event) => {
-    setPagination({ ...pagination, limit: Number(event.target.value), page: 1 });
+    setPagination({
+      ...pagination,
+      limit: Number(event.target.value),
+      page: 1,
+    });
   };
 
   const handleChange = (e) => {
@@ -177,7 +190,6 @@ useEffect(() => {
     dispatch(fetchAllProducts({ page: pageNumber, limit: pagination.limit }));
     setPagination({ ...pagination, page: pageNumber });
   };
-  
 
   let paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
@@ -193,7 +205,7 @@ useEffect(() => {
   }
 
   const toggleAddProduct = () => {
-    setShowAddProduct((prev) => !prev); 
+    setShowAddProduct((prev) => !prev);
   };
 
   const [isEditing, setIsEditing] = useState(false);
@@ -211,8 +223,6 @@ useEffect(() => {
       incomeTaxPercentage: product.incomeTaxPercentage || "",
     });
   };
-
-
 
   // Click handler for the update button inside the form
   const handleUpdateProduct = async (e) => {
@@ -249,8 +259,12 @@ useEffect(() => {
     <section>
       <div className="container">
         <div class="nine">
-          <NavLink >
-        <FaArrowLeftLong className="mt-4 fs-2" style={{cursor:'pointer'}} onClick={navigateBack}/>
+          <NavLink>
+            <FaArrowLeftLong
+              className="mt-4 fs-2"
+              style={{ cursor: "pointer" }}
+              onClick={navigateBack}
+            />
           </NavLink>
 
           <h1 className="mt-4">
@@ -314,18 +328,16 @@ useEffect(() => {
                     <span class="label">Income Tax Percentage</span>
                     <span class="focus-bg"></span>
                   </label>
-                  
                 </div>
-                
               </div>
               <button
-                    type="submit"
-                    className="new_btn2 w-25 mt-2 px-4 p-2"
-                    // onClick={() => setShowAddProduct(false)}
-                    // style={{ display: showAddProduct ? "none" : "block" }}
-                  >
-                    {isEditing ? "Update Product" : "Add New Product"}
-                  </button>
+                type="submit"
+                className="new_btn2 w-25 mt-2 px-4 p-2"
+                // onClick={() => setShowAddProduct(false)}
+                // style={{ display: showAddProduct ? "none" : "block" }}
+              >
+                {isEditing ? "Update Product" : "Add New Product"}
+              </button>
             </div>
           </form>
         ) : (
