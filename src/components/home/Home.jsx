@@ -1,7 +1,7 @@
 import React from 'react'
 import Sidebar from "../navbar/Sidebar";
 
-import banner from '../../assets/student-book-logo-design-vector-illustration-template_110373-526.jpg'
+import banner from '../../assets/looo.png'
 const Home = () => {
   return (
   
@@ -12,7 +12,7 @@ const Home = () => {
           <div className="container">
             <div className="row">
                 <div className="col-12">
-                    <img className='img-fluid' src={banner} alt="" />
+                    <img className='' src={banner} alt="" style={{width:'800px'}} />
                 </div>
             </div>
         </div>

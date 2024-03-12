@@ -16,6 +16,7 @@ import Login from './components/login/Login';
 import TaxReport from './pages/taxreport/TaxReport';
 import ProtectedRoute from './components/ProtectedRoute';
 import { Toaster } from 'react-hot-toast';
+import FullBill from './pages/billhistory/FullBill';
 
 function App() {
   
@@ -35,6 +36,8 @@ function App() {
         } />
         <Route path="bill" element={<Bill />} />
         <Route path="billhistory" element={<BillHistory />} />
+        <Route path="billhistory/:id" element={<FullBill />} />
+
         <Route path="invoice" element={<Invoice />} />
         <Route path="invoicehistory" element={<InvoiceHistory />} />
         <Route path="customer" element={<Customer />} />

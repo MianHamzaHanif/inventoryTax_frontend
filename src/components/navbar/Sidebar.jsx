@@ -56,7 +56,7 @@ const Sidebar = () => {
                
             </li>
             </LinkContainer>
-            <LinkContainer to='billhistory'>
+            <LinkContainer to='/billhistory'>
             <li class="nav-link">
             
               <FaHistory className='icons'/>
@@ -64,7 +64,7 @@ const Sidebar = () => {
             
             </li>
             </LinkContainer>
-            <LinkContainer to={'invoice'}>    
+            <LinkContainer to={'/invoice'}>    
                     <li class="nav-link">
             
               <TbFileInvoice className="icons"/>
@@ -72,7 +72,7 @@ const Sidebar = () => {
             
             </li>
             </LinkContainer>
-           <LinkContainer to={"invoicehistory"}>
+           <LinkContainer to={"/invoicehistory"}>
            <li class="nav-link">
              
               <FaHistory className='icons'/>
@@ -80,7 +80,7 @@ const Sidebar = () => {
              
             </li>
            </LinkContainer>
-           <LinkContainer to={"customer"}>
+           <LinkContainer to={"/customer"}>
             <li class="nav-link">
              
                 <RiCustomerService2Fill className='icons'/>
@@ -88,7 +88,7 @@ const Sidebar = () => {
             
             </li>
             </LinkContainer>
-            <LinkContainer to={"addproduct"}>
+            <LinkContainer to={"/addproduct"}>
             <li class="nav-link">
             
               <MdOutlineProductionQuantityLimits className='icons'/>
@@ -96,7 +96,7 @@ const Sidebar = () => {
              
             </li>
             </LinkContainer>
-            <LinkContainer to={"department"}>
+            <LinkContainer to={"/department"}>
             <li class="nav-link">
               <a href="#">
               <FcDepartment className='icons'/>
@@ -104,7 +104,7 @@ const Sidebar = () => {
               </a>
             </li>
             </LinkContainer>
-            <LinkContainer to={"itemhead"}>
+            <LinkContainer to={"/itemhead"}>
             <li class="nav-link">
            
               <HiTemplate className='icons'/>
@@ -112,7 +112,7 @@ const Sidebar = () => {
             
             </li>
             </LinkContainer>
-            <LinkContainer to={"taxreport"}>
+            <LinkContainer to={"/taxreport"}>
             <li class="nav-link">
               
               <TbReportSearch className='icons'/>

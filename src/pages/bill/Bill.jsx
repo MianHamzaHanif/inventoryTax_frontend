@@ -22,6 +22,8 @@ import { fetchDepartment } from "../../redux/departmentSlice";
 import { fetchAllProducts } from "../../redux/product/Product";
 import { APIinstance } from "../../axios.config";
 import { toast } from "react-hot-toast";
+import { addNewBill } from "../../redux/bill";
+import Sidebar from "../../components/navbar/Sidebar";
 
 const Bill = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -214,8 +216,8 @@ const Bill = () => {
     };
   
     try {
-      const response = await APIinstance.post('bill', billPayload);
-      console.log('Bill submitted successfully:', response.data);
+       dispatch(addNewBill(billPayload));
+      console.log('Bill submitted successfully');
       toast.success('Bill submitted successfully');
     } catch (error) {
       console.error('Error submitting bill:', error);
@@ -238,7 +240,7 @@ const Bill = () => {
       }
     } catch (error) {
       console.error("Error fetching product details", error);
-      toast.error("Failed to fetch products.");
+      // toast.error("Failed to fetch products.");
     }
   };
 
@@ -248,14 +250,17 @@ const Bill = () => {
 
   return (
     <section className="bill_bg">
-      <div className="container pb-3">
-        <div class="nine">
+      <div className="container-fluid pb-3">
+        
+        <div className="row">
+          <div className="col-10">
+          <div class="nine">
           <h1 className="mt-2">
             Billing<span>HiTech Solution</span>
           </h1>
         </div>
-        <>
-          <div className="row p-3">
+          <>
+          <div className="row p-3 mb-3">
             <div className="col-lg-6 col-md-6">
               <div className="d-block">
                 <label for="inp" class="inp mb-3">
@@ -376,12 +381,11 @@ const Bill = () => {
             <div className="col-5"></div>
           </div>
         </>
-      </div>
-      <div
+        <div
         className="container"
         style={{ height: "400px", overflow: "scroll" }}
       >
-        <table class="table table-bordered rounded">
+        <table class="table mt-3 table-bordered rounded">
           <thead>
             <tr style={{ position: "sticky", top: "0" }}>
               <th>Add</th>
@@ -468,9 +472,11 @@ const Bill = () => {
           </tbody>
         </table>
       </div>
-
       <section className="mt-5 py-4" style={{ backgroundColor: "#e3f1d9" }}>
         <div className="container">
+          <div className="row">
+            
+
           <div className="row">
             <div className="col-6">
               <div className="d-block">
@@ -572,8 +578,23 @@ const Bill = () => {
               </div>
             </div>
           </div>
+            </div>
+           
+          
         </div>
+       
       </section>
+          </div>
+        <div className="col-2">
+            <div className="d-flex">
+            <Sidebar />
+          </div>
+            </div>
+        </div>
+       
+      </div>
+     
+     
       <LinkContainer to={"/"}>
         <button className="btn_bill">
           Leave <IoMdLogOut />

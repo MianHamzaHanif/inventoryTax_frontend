@@ -3,23 +3,29 @@ import axios from 'axios'
 import { APIinstance } from '../axios.config';
 
 
-export const fetchCustomers = createAsyncThunk('customers/fetch', async ({ page, limit }) => {
-    const response = await APIinstance.get(`customer?page=${page}&limit=${limit}`);
+export const fetchBills = createAsyncThunk('bills/fetchAll', async ({ page, limit }) => {
+  console.log("page",page);
+  console.log("limit",limit);
+
+    const response = await APIinstance.get(`bill?page=${page}&limit=${limit}`);
     return response.data;
   });
   
-  export const addNewCustomer = createAsyncThunk('customers/add', async (customerData) => {
-    const response = await APIinstance.post('customer', customerData);
+  export const addNewBill = createAsyncThunk('bills/add', async (customerData) => {
+    const response = await APIinstance.post('bill', customerData);
     return response.data;
   });
   
-  export const updateCustomer = createAsyncThunk('customers/update', async ({ id, ...data }) => {
-    const response = await APIinstance.put(`customer/${id}`, data);
+  export const updateBill = createAsyncThunk('bills/update', async ({ id ,  billPayload} ) => {
+    console.log("ididid",id);
+    console.log("billPayloadbillPayload",billPayload);
+    const response = await APIinstance.put(`bill/${id}`, billPayload);
+    console.log("responseresponseresponse",response);
     return response.data;
   });
   
-  export const deleteCustomer = createAsyncThunk('customers/delete', async (id) => {
-    await APIinstance.delete(`customer/${id}`);
+  export const deleteBill = createAsyncThunk('bills/delete', async (id) => {
+    await APIinstance.delete(`bill/${id}`);
     return id;
   });
   
@@ -27,8 +33,8 @@ export const fetchCustomers = createAsyncThunk('customers/fetch', async ({ page,
     name: 'bill',
     initialState: {
       isLoading: false,
-      customer: null,
-      customers: [],
+      bill: null,
+      bills: [],
       totalPages: 0,
       message: null,
     },
@@ -37,31 +43,37 @@ export const fetchCustomers = createAsyncThunk('customers/fetch', async ({ page,
     },
     extraReducers: (builder) => {
       builder
-        .addCase(fetchCustomers.fulfilled, (state, action) => {
+      .addCase(fetchBills.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.bills = action.payload.bills || []; // Set customers to an empty array if bills is undefined
+        state.totalPages = action.payload.params.totalPages || 0; // Set totalPages to 0 if not present
+      })      
+        // .addCase(addNewBill.fulfilled, (state, action) => {
+        //   state.isLoading = false;
+        //   state.customers.push(action.payload.customer);
+        // })
+        .addCase(addNewBill.fulfilled, (state, action) => {
           state.isLoading = false;
-          state.customers = action.payload.customers;
-          state.totalPages = action.payload.params.totalPages;
+          state.bills.push(action.payload.bill); 
         })
-        .addCase(addNewCustomer.fulfilled, (state, action) => {
+        
+        .addCase(updateBill.fulfilled, (state, action) => {
           state.isLoading = false;
-          state.customers.push(action.payload.customer);
+          // const index = state.customers.findIndex((customer) => customer._id === action.payload._id);
+          // if (index !== -1) {
+          //   state.customers[index] = action.payload;
+          // }
         })
-        .addCase(updateCustomer.fulfilled, (state, action) => {
+        .addCase(deleteBill.fulfilled, (state, action) => {
           state.isLoading = false;
-          const index = state.customers.findIndex((customer) => customer._id === action.payload._id);
-          if (index !== -1) {
-            state.customers[index] = action.payload;
-          }
+          state.bills = state.bills.filter((bill) => bill._id !== action.payload);
         })
-        .addCase(deleteCustomer.fulfilled, (state, action) => {
-          state.isLoading = false;
-          state.customers = state.customers.filter((customer) => customer._id !== action.payload);
-        })
+        
         // Handle other async actions as needed
-        .addCase(fetchCustomers.pending, (state) => {
+        .addCase(fetchBills.pending, (state) => {
           state.isLoading = true;
         })
-        .addCase(fetchCustomers.rejected, (state, action) => {
+        .addCase(fetchBills.rejected, (state, action) => {
           state.isLoading = false;
           // Handle the error state
         })

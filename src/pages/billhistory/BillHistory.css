@@ -13,6 +13,9 @@
     font-weight: 500;
  
 }
+.btn-success{
+    background-color: #61915F !important;
+}
 .btn_search {
     width: 30%;
     padding: 10px;

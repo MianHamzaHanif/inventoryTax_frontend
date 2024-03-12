@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/unnamed-removebg-preview.png";
+import logo from "../../assets/looo.png";
 
 import "./Navbar.css";
 const Navbar = () => {
@@ -18,7 +18,7 @@ const Navbar = () => {
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <img src={logo} width={150} alt="" />
+          <img src={logo} width={80} alt="" />
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item ms-lg-4">
               <a class="nav-link active" aria-current="page" href="/">

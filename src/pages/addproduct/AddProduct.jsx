@@ -6,6 +6,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { APIinstance } from "../../axios.config";
 import Pagination from "react-bootstrap/Pagination";
 import { FaPlus } from "react-icons/fa6";
+import { FaArrowLeftLong } from "react-icons/fa6";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewProduct,
@@ -16,6 +18,7 @@ import {
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 import { Form } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 const AddProduct = () => {
   const [productDetails, setProductDetails] = useState([]); // Initialize to an empty array
@@ -239,10 +242,17 @@ useEffect(() => {
       .catch(() => toast.error("Failed to delete product"));
   };
 
+  const navigateBack = () => {
+    window.history.go(-1); // This will navigate back one route
+  };
   return (
     <section>
       <div className="container">
         <div class="nine">
+          <NavLink >
+        <FaArrowLeftLong className="mt-4 fs-2" style={{cursor:'pointer'}} onClick={navigateBack}/>
+          </NavLink>
+
           <h1 className="mt-4">
             Add Product<span>HiTech Solution</span>
           </h1>
